@@ -98,6 +98,12 @@ pipeline {
             }
         }
 
+        stage('Kubernetes Deply') {
+            steps {
+                sh "helm upgrade --install --force vprofile-stack helm/vprofilecharts --set appimage=${appRegistry}:V${BUILD_NUMBER} --namespace prod"
+            }
+        }
+
 
 
     }
