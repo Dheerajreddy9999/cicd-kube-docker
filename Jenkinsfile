@@ -1,11 +1,11 @@
 pipeline {
 
     agent any
-/*
 	tools {
         maven "maven3"
+        jdk "OracleJDK8"
     }
-*/
+
     environment {
         registryCredential = 'gcr:autonomous-gist-362606'
         appRegistry = "asia.gcr.io/autonomous-gist-362606/vprofileappimg"
