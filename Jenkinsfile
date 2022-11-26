@@ -98,9 +98,17 @@ pipeline {
             }
         }
 
-        stage('Kubernetes Deply') {
+        stage('Kubernetes Deploy') {
             steps {
                 sh "helm upgrade --install --force vprofile-stack helm/vprofilecharts --set appimage=${appRegistry}:V${BUILD_NUMBER} --namespace prod"
+                sh "helm list"
+            }
+        }
+
+        
+        stage('kube Services') {
+            steps {
+                sh "kubectl get all --namespace prod"
             }
         }
 
