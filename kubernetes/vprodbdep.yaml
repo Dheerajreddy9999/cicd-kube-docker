@@ -13,11 +13,7 @@ spec:
     metadata:
       labels:
         app: vprodb
-    spec:
-      volumes:
-        - name: vpro-db-data
-          persistentVolumeClaim:
-            claimName: db-volume
+    spec:    
       containers:
         - name: vprodb
           image: vprofile/vprofiledb:V1
@@ -26,15 +22,24 @@ spec:
           ports:
             - name: vprodb-port
               containerPort: 3306
-          volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: vpro-db-data
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: app-secret
                   key: db-pass
+          volumeMounts:
+            - name: db-data
+              mountPath: /var/lib/mysql
+    volumeClaimTemplates:
+    - metadata:
+        name: db-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "my-storage-class"
+        resources:
+          requests:
+            storage: 2Gi
 
 
     
